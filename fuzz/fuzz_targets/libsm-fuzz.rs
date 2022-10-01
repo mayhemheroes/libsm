@@ -6,22 +6,22 @@ use libsm::sm4::{Mode, Cipher};
 
 fuzz_target!(|data: &[u8]| {
     if data.len() > 1 {
-        let opt1 = data[0] % 3;
+        let opt1 = data[0] % 2;
 
         let new_data = &data[1..];
 
         match opt1 {
+            // 0=>{
+            //     let ctx = SigCtx::new();
+            //     let (pk, sk) = ctx.new_keypair().expect("Bad Keypair SM2");
+            //     let signature = ctx.sign(&new_data, &sk, &pk).expect("Bad Signature SM2");
+            //     let _ = ctx.verify(&new_data, &pk, &signature).expect("Bad Verify SM2");
+            // },
             0=>{
-                let ctx = SigCtx::new();
-                let (pk, sk) = ctx.new_keypair().expect("Bad Keypair SM2");
-                let signature = ctx.sign(&new_data, &sk, &pk).expect("Bad Signature SM2");
-                let _ = ctx.verify(&new_data, &pk, &signature).expect("Bad Verify SM2");
-            },
-            1=>{
                 let mut hash = Sm3Hash::new(new_data);
                 let _: [u8;32] = hash.get_hash();
             },
-            2=>{
+            1=>{
                 if new_data.len() > 2 {
                     let opt2 = new_data[0] % 4;
                     let sm4_data = &new_data[1..];
