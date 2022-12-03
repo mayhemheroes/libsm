@@ -1,0 +1,6 @@
+project: libsm
+target: libsm-fuzz
+
+cmds:
+    - cmd: ./libsm-fuzz
+      libfuzzer: true
